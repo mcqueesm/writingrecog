@@ -81,5 +81,13 @@ canvas.addEventListener("mousedown", event => {
 canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mouseup", () => (mousePressed = false));
 canvas.addEventListener("mouseout", () => (mousePressed = false));
+canvas.addEventListener("touchstart", event => {
+  mousePressed = true;
+  [coordX, coordY] = [event.offsetX, event.offsetY];
+});
+canvas.addEventListener("touchmove", draw);
+canvas.addEventListener("touchend", () => (mousePressed = false));
+canvas.addEventListener("touchcancel", () => (mousePressed = false));
+
 clearBtn.addEventListener("click", clear);
 predictBtn.addEventListener("click", predict);
