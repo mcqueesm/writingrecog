@@ -1,0 +1,21 @@
+#container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  color: white;
+  text-align: center;
+  font-family: helvetica;
+}
+#clear-canvas {
+  margin-right: 10px;
+}
+#predict-text {
+  font-size: 150%;
+}
+canvas {
+  background-color: black;
+  border: 1px solid black;
+}

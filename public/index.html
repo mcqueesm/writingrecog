@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="index.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+
+    <!-- <script type="module" src="index.mjs"></script> -->
+  </head>
+  <body>
+    <div id="container">
+      <h1>Handwriting Recognition</h1>
+      <p>
+        Draw a digit, 0-9, centered in the box. <br />Fill entire box for best
+        results.
+      </p>
+      <canvas id="digit-canvas" width="300" height="300"></canvas>
+      <div id="button-container">
+        <button id="clear-canvas" type="button">Clear</button>
+        <button id="predict" type="button">Predict</button>
+      </div>
+      <p id="predict-text"></p>
+    </div>
+    <script type="module" src="draw.mjs"></script>
+  </body>
+</html>
