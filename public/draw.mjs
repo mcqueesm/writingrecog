@@ -82,6 +82,7 @@ canvas.addEventListener("mousemove", draw);
 canvas.addEventListener("mouseup", () => (mousePressed = false));
 canvas.addEventListener("mouseout", () => (mousePressed = false));
 canvas.addEventListener("touchstart", event => {
+  event.preventDefault();
   mousePressed = true;
   [coordX, coordY] = [event.offsetX, event.offsetY];
 });
