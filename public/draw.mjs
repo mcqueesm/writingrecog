@@ -17,7 +17,7 @@ ctx.lineJoin = "round";
 ctx.lineCap = "round";
 ctx.strokeStyle = "#fefefe";
 ctx.lineWidth = 3;
-ctx.rect(72, 72, 356, 356);
+ctx.rect(50, 50, 200, 200);
 ctx.stroke();
 ctx.lineWidth = 20;
 
@@ -80,7 +80,7 @@ function predict() {
 function clear() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.lineWidth = 3;
-  ctx.rect(72, 72, 356, 356);
+  ctx.rect(50, 50, 200, 200);
   ctx.stroke();
   ctx.lineWidth = 20;
   predictText.innerHTML = "";
