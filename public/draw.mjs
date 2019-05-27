@@ -26,6 +26,7 @@ let coordX = 0;
 let coordY = 0;
 
 function draw(event) {
+  event.preventDefault();
   if (!mousePressed) return;
   ctx.beginPath();
   ctx.moveTo(coordX, coordY);
