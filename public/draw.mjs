@@ -30,9 +30,19 @@ function draw(event) {
   if (!mousePressed) return;
   ctx.beginPath();
   ctx.moveTo(coordX, coordY);
-  ctx.lineTo(event.offsetX, event.offsetY);
-  ctx.stroke();
-  [coordX, coordY] = [event.offsetX, event.offsetY];
+
+  if (event.type == "touchmove") {
+    let rect = canvas.getBoundingClientRect();
+    let newX = event.touches[0].clientX - rect.left;
+    let newY = event.touches[0].clientY - rect.top;
+    ctx.lineTo(newX, newY);
+    ctx.stroke();
+    [coordX, coordY] = [newX, newY];
+  } else {
+    ctx.lineTo(event.offsetX, event.offsetY);
+    ctx.stroke();
+    [coordX, coordY] = [event.offsetX, event.offsetY];
+  }
 }
 function predict() {
   /*tempCtx.drawImage(canvas, 0, 0, 28, 28);
@@ -84,8 +94,12 @@ canvas.addEventListener("mouseup", () => (mousePressed = false));
 canvas.addEventListener("mouseout", () => (mousePressed = false));
 canvas.addEventListener("touchstart", event => {
   event.preventDefault();
+  let rect = canvas.getBoundingClientRect();
   mousePressed = true;
-  [coordX, coordY] = [event.offsetX, event.offsetY];
+  [coordX, coordY] = [
+    event.touches[0].clientX - rect.left,
+    event.touches[0].clientY - rect.top
+  ];
 });
 canvas.addEventListener("touchmove", draw);
 canvas.addEventListener("touchend", () => (mousePressed = false));
