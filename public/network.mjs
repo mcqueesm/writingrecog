@@ -1,8 +1,10 @@
 export class Network {
+  //sizes is array where each value the number of neurons in that layer
   constructor(sizes) {
     this.num_layers = sizes.length;
     this.sizes = sizes;
     this.biases = [];
+    //Initialize biases and weights with random numbers on a normal distribution
     for (let i = 1; i < sizes.length; i++) {
       this.biases.push(tf.randomNormal([sizes[i], 1]));
     }
@@ -11,12 +13,14 @@ export class Network {
       this.weights.push(tf.randomNormal([sizes[j + 1], sizes[j]]));
     }
   }
+  //Randomly shuffle array
   shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [array[i], array[j]] = [array[j], array[i]];
     }
   }
+  //Feed input tensorlayer by layer to final activation layer
   feedforward(act) {
     let a = act;
     for (let i = 0; i < this.num_layers - 1; i++) {
@@ -24,7 +28,12 @@ export class Network {
     }
     return a;
   }
-
+  //Stochastic Gradient Descient.  Takes array of training data, where each
+  //entry in array is another array containing a pair of tensors--the first tensor
+  //is the input, and the second is the expected output.  epochs: number of epochs
+  //to train.  mini_batch_size: the number of training tensors to have in each
+  //mini batch.  eta: learning rate for network.  test_data (optional): an array of data to
+  //test the performance of the network after each epoch (same format as training_data).
   SGD(training_data, epochs, mini_batch_size, eta, test_data = null) {
     let n_test;
     let n = training_data.length;
@@ -40,6 +49,8 @@ export class Network {
           this.update_mini_batch([...mb], eta)
         );
       });
+      /*
+      UNCOMMENT TO STORE WEIGHTS/BIASES TO LOCALSTORAGE
       localStorage.setItem(
         "weights",
         JSON.stringify(this.weights.map(x => x.arraySync()))
@@ -47,7 +58,7 @@ export class Network {
       localStorage.setItem(
         "biases",
         JSON.stringify(this.biases.map(x => x.arraySync()))
-      );
+      );*/
       if (test_data) {
         console.log(`Epoch ${j}: ${this.evaluate(test_data)} / ${n_test}`);
       } else {
@@ -60,7 +71,7 @@ export class Network {
       this.biases.forEach(x => x.print());
     }
   }
-
+  //Update weights and biases from doing backpropagation on mini batch
   update_mini_batch(mini_batch, eta) {
     //console.log(tf.memory().numTensors);
     let nabla_b = [];
@@ -96,6 +107,7 @@ export class Network {
 
     return [weights, biases];
   }
+  //Backpropagation algorithm
   backprop(x, y) {
     let nabla_b = [];
     let nabla_w = [];
@@ -135,6 +147,7 @@ export class Network {
 
     return [nabla_b, nabla_w];
   }
+  //Returns the number of test examples the network correctly predicted.
   evaluate(test_data) {
     let sum = 0;
     test_data.forEach(data => {
@@ -151,13 +164,15 @@ export class Network {
     });
     return sum;
   }
+  //Compute cost derivative
   cost_derivative(output_activations, y) {
     return output_activations.sub(y);
   }
+  //Compute derivative of sigmoid function
   sigmoid_prime(z) {
     return z.sigmoid().mul(tf.sub(1, z.sigmoid()));
   }
-
+  //Set weights of network
   setWeights(weights) {
     let newWeights = [];
     weights.forEach(x =>
@@ -165,7 +180,7 @@ export class Network {
     );
     this.weights = newWeights;
   }
-
+  //Set biases of network
   setBiases(biases) {
     let newBiases = [];
     biases.forEach(x => newBiases.push(tf.tensor(x, [x.length, 1])));
